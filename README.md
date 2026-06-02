@@ -28,8 +28,10 @@
 
 ```bash
 npm install -g petdex-cc
-petdex-cc install boba        # 任意一只宠物的 slug
+petdex-cc install boba        # boba 只是示例,换成你喜欢的宠物 slug
 ```
+
+> 🐾 **`boba` 只是举例**。请到 **petdex 官网图鉴 [https://petdex.crafter.run](https://petdex.crafter.run)** 浏览所有宠物，挑一只你喜欢的，把命令里的 `boba` 换成它的 slug（也可以先 `petdex-cc list` 查看可下载列表）。例如想要龙王就 `petdex-cc install aurelion-sol`。
 
 ### 2. 克隆本仓库并应用魔改
 
