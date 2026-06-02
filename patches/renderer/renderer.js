@@ -292,6 +292,8 @@
     setBar("level-fill", "level-pct", ratio, next == null ? "MAX" : Math.round(Math.max(0, Math.min(1, ratio)) * 100) + "%");
     const lbl = document.getElementById("level-label");
     if (lbl) lbl.textContent = `Lv${level}`;
+    const num = document.getElementById("level-num");
+    if (num) num.textContent = next == null ? `${events}` : `${events - cur}/${next - cur}`; // 本级进度
   }
   function updateLevelEffects(level) {
     document.documentElement.style.setProperty("--lv-color", LEVEL_COLORS[level] ?? "#94a3b8");

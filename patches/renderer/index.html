@@ -275,7 +275,8 @@
       height: 11px;
     }
     .hp-label {
-      flex: 0 0 26px;
+      flex: 0 0 30px;
+      text-align: right;
       font: 700 9px/1 'Cascadia Code', 'SF Mono', Consolas, monospace;
       color: #fff;
       letter-spacing: 0.2px;
@@ -326,8 +327,8 @@
       50%      { box-shadow: 0 0 13px rgba(239,68,68,1); opacity: 0.7; }
     }
     .hp-pct {
-      flex: 0 0 34px;
-      text-align: right;
+      flex: 0 0 30px;
+      text-align: left;
       font: 700 9px/1 'Cascadia Code', 'SF Mono', Consolas, monospace;
       color: #fff;
       text-shadow: 0 1px 2px rgba(0,0,0,0.9), 0 0 3px rgba(0,0,0,0.7);
@@ -358,7 +359,7 @@
     <div id="status-bar">
       <div class="hp-row">
         <span class="hp-label" id="level-label">Lv1</span>
-        <div class="hp-track"><div class="hp-fill hp-fill-level" id="level-fill"></div></div>
+        <div class="hp-track"><div class="hp-fill hp-fill-level" id="level-fill"></div><span class="hp-inline" id="level-num"></span></div>
         <span class="hp-pct" id="level-pct">0%</span>
       </div>
       <div class="hp-row">
