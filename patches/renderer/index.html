@@ -259,7 +259,7 @@
 
     /* ── 脚下血条状态栏 ── */
     #status-bar {
-      width: 188px;
+      width: 150px;
       display: flex;
       flex-direction: column;
       gap: 3px;
@@ -282,13 +282,26 @@
       text-shadow: 0 1px 2px rgba(0,0,0,0.9), 0 0 3px rgba(0,0,0,0.7);
     }
     .hp-track {
+      position: relative;
       flex: 1 1 auto;
-      height: 9px;
+      height: 13px;
       border-radius: 5px;
       background: rgba(0,0,0,0.5);
       border: 1px solid rgba(255,255,255,0.25);
       overflow: hidden;
       box-shadow: inset 0 1px 2px rgba(0,0,0,0.5);
+    }
+    .hp-inline {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font: 700 9px/1 'Cascadia Code', 'SF Mono', Consolas, monospace;
+      color: #fff;
+      letter-spacing: 0.3px;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.95), 0 0 3px rgba(0,0,0,0.9);
+      pointer-events: none;
     }
     .hp-fill {
       height: 100%;
@@ -313,7 +326,7 @@
       50%      { box-shadow: 0 0 13px rgba(239,68,68,1); opacity: 0.7; }
     }
     .hp-pct {
-      flex: 0 0 66px;
+      flex: 0 0 34px;
       text-align: right;
       font: 700 9px/1 'Cascadia Code', 'SF Mono', Consolas, monospace;
       color: #fff;
@@ -350,7 +363,7 @@
       </div>
       <div class="hp-row">
         <span class="hp-label" id="token-label">ctx</span>
-        <div class="hp-track"><div class="hp-fill hp-fill-token" id="token-fill"></div></div>
+        <div class="hp-track"><div class="hp-fill hp-fill-token" id="token-fill"></div><span class="hp-inline" id="token-num"></span></div>
         <span class="hp-pct" id="token-pct">0%</span>
       </div>
     </div>
