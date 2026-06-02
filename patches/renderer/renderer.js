@@ -269,10 +269,9 @@
     const remaining = Math.max(0, 1 - totalTokens / CONTEXT_MAX); // 扣血模式:血条=剩余上下文空间
     const remainingPct = Math.round(remaining * 100);
     const used = Math.max(0, totalTokens);
-    const remainingTokens = Math.max(0, CONTEXT_MAX - totalTokens);
-    setBar("token-fill", "token-pct", remaining, remainingPct + "%"); // 右侧:剩余占比
+    setBar("token-fill", "token-pct", remaining, fmtK(used)); // 条外(右侧):已用 token 量
     const num = document.getElementById("token-num");
-    if (num) num.textContent = `${fmtK(used)} / ${fmtK(remainingTokens)}`; // 条内:已用 / 剩余
+    if (num) num.textContent = remainingPct + "%"; // 条内:剩余空间占比
     const fill = document.getElementById("token-fill");
     if (fill) fill.classList.toggle("hp-low", remaining <= 0.15);
   }
