@@ -267,7 +267,8 @@
   }
   function updateTokenBadge(totalTokens) {
     const remaining = 1 - totalTokens / CONTEXT_MAX; // 扣血模式:血条=剩余上下文空间
-    setBar("token-fill", "token-pct", remaining, fmtK(totalTokens)); // 右侧显示真实 token 数值
+    const usedPct = Math.round(Math.min(1, totalTokens / CONTEXT_MAX) * 100);
+    setBar("token-fill", "token-pct", remaining, `${fmtK(totalTokens)} · ${usedPct}%`); // 数值 + 已用占比
     const fill = document.getElementById("token-fill");
     if (fill) fill.classList.toggle("hp-low", remaining <= 0.15);
   }
