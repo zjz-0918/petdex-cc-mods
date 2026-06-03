@@ -1,6 +1,8 @@
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
-import { readFileSync } from "node:fs";
+import { readFileSync, readdirSync } from "node:fs";
+import { homedir } from "node:os";
+import { execFile } from "node:child_process";
 import { app, Menu, Tray, nativeImage } from "electron";
 let tray = null;
 function generateTrayIcon() {
@@ -117,6 +119,32 @@ export function createTray(mainWindow) {
         return null;
     }
     tray.setToolTip("petdex-cc");
+    // 读取已安装的宠物,构建「切换宠物」子菜单
+    const PETDEX_BIN = "/opt/homebrew/bin/petdex-cc";
+    const PET_ENV = { ...process.env, PATH: "/opt/homebrew/bin:/usr/local/bin:" + (process.env.PATH || "") };
+    let currentSlug = "";
+    try {
+        currentSlug = (JSON.parse(readFileSync(join(homedir(), ".petdex-cc", "data", "state.json"), "utf8")).petSlug) || "";
+    }
+    catch { }
+    let petItems = [];
+    try {
+        petItems = readdirSync(join(homedir(), ".petdex-cc", "pets"), { withFileTypes: true })
+            .filter((d) => d.isDirectory())
+            .map((d) => d.name)
+            .sort()
+            .map((slug) => ({
+            label: slug,
+            type: "checkbox",
+            checked: slug === currentSlug,
+            click: () => {
+                execFile(PETDEX_BIN, ["switch", slug], { env: PET_ENV }, () => { });
+            },
+        }));
+    }
+    catch { }
+    if (petItems.length === 0)
+        petItems = [{ label: "(无已安装宠物)", enabled: false }];
     const contextMenu = Menu.buildFromTemplate([
         {
             label: "Show Pet",
@@ -127,6 +155,11 @@ export function createTray(mainWindow) {
         {
             label: "Hide Pet",
             click: () => mainWindow.hide(),
+        },
+        { type: "separator" },
+        {
+            label: "切换宠物 / Switch Pet",
+            submenu: petItems,
         },
         { type: "separator" },
         {
