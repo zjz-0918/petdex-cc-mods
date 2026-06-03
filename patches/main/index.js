@@ -77,7 +77,7 @@ async function main() {
     const htmlPath = join(__dirname, "..", "renderer", "index.html");
     mainWindow.loadFile(htmlPath);
     electronRemote.enable(mainWindow.webContents);
-    mainWindow.setVisibleOnAllWorkspaces(true);
+    mainWindow.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
     mainWindow.setAlwaysOnTop(true, "screen-saver");
     mainWindow.setIgnoreMouseEvents(true, { forward: true });
     // When anything tries to go above the pet, immediately re-assert topmost
