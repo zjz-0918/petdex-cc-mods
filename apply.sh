@@ -19,7 +19,7 @@ echo "📦 petdex-cc 安装位置: $PKG"
 backup() { [ -f "$1" ] && [ ! -f "$1.modbak" ] && cp "$1" "$1.modbak" && echo "  备份 → $(basename "$1").modbak"; }
 
 echo "🔧 应用补丁文件 ..."
-for rel in renderer/index.html renderer/renderer.js main/index.js main/tray.js assets/tray-icon.png; do
+for rel in renderer/index.html renderer/renderer.js main/index.js main/tray.js assets/tray-icon.png cli/install.js; do
   dst="$PKG/dist/src/$rel"
   mkdir -p "$(dirname "$dst")"
   backup "$dst"
