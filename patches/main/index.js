@@ -1,5 +1,5 @@
 import { join, dirname } from "node:path";
-import { writeFileSync, mkdirSync, readFileSync } from "node:fs";
+import { writeFileSync, mkdirSync, readFileSync, readdirSync } from "node:fs";
 import { homedir } from "node:os";
 import { fileURLToPath } from "node:url";
 import { app, BrowserWindow, ipcMain, Menu, dialog } from "electron";
@@ -86,7 +86,7 @@ async function main() {
             mainWindow.setAlwaysOnTop(true, "screen-saver");
         }
     });
-    createTray(mainWindow);
+    // createTray(mainWindow); // 已移除菜单栏(顶部状态栏)六边形图标;开关/切换/退出改用右键桌宠 + 桌宠开关.app
     const state = loadState();
     let currentState = state;
     onEvent(async (event) => {
@@ -131,10 +131,35 @@ async function main() {
     ipcMain.on("show-context-menu", () => {
         if (!mainWindow || mainWindow.isDestroyed())
             return;
+        let petItems = [];
+        try {
+            petItems = readdirSync(join(homedir(), ".petdex-cc", "pets"), { withFileTypes: true })
+                .filter((d) => d.isDirectory())
+                .map((d) => d.name)
+                .sort()
+                .map((slug) => ({
+                label: slug,
+                type: "checkbox",
+                checked: slug === currentState.petSlug,
+                click: () => {
+                    currentState = { ...currentState, petSlug: slug };
+                    saveState(currentState);
+                    mainWindow?.webContents.send("pet-switched", slug);
+                },
+            }));
+        }
+        catch { }
+        if (petItems.length === 0)
+            petItems = [{ label: "(无已安装宠物)", enabled: false }];
         const menu = Menu.buildFromTemplate([
             {
                 label: mainWindow.isVisible() ? "Hide Pet" : "Show Pet",
                 click: () => mainWindow.isVisible() ? mainWindow.hide() : mainWindow.showInactive(),
+            },
+            { type: "separator" },
+            {
+                label: "切换宠物 / Switch Pet",
+                submenu: petItems,
             },
             { type: "separator" },
             {

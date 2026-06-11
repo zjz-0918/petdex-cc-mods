@@ -305,13 +305,22 @@
     }
     const glow = document.getElementById("level-glow");
     if (glow) glow.classList.toggle("active", level >= 2);
-    const aura = document.getElementById("level-aura");
-    if (aura) aura.classList.toggle("active", level >= 3);
+    const spd = Math.max(2.2, 5.2 - level * 0.35); // 等级越高彗星越快
+    document.documentElement.style.setProperty("--aura-speed", spd.toFixed(1) + "s");
+    ["floor-back", "floor-front"].forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.classList.toggle("active", level >= 3); // 脚下立体光圈(远/近端)
+        el.classList.toggle("dual", level >= 7);   // Lv7+ 双水滴(地面太极)
+      }
+    });
     document.querySelectorAll(".level-particle").forEach((p) => {
       p.classList.toggle("active", level >= 5);
     });
-    const halo = document.getElementById("level-halo");
-    if (halo) halo.classList.toggle("active", level >= 8);
+    ["halo-back", "halo-front"].forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) el.classList.toggle("active", level >= 8); // Lv8 金色地面环(前后分层)
+    });
     updateLevelBar();
   }
   init();
